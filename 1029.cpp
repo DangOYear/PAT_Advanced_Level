@@ -1,30 +1,35 @@
-#include<iostream>
-using namespace std;
+#include<stdio.h>
 
 
-bool HashTable[128];
+#define INF 0x7ffffff
+#define MAX_N 1000010
 
+int s1[MAX_N];
+int s2[MAX_N];
 
 int main(){
-	string s1,s2;
-	getline(cin,s1);
-	getline(cin,s2);
-	
-	int len1=s1.length();
-	int len2=s2.length();
-	for(int i=0;i<len1;i++){
-		int j;
-		char c1,c2;
-		c1=s1[i];
-		for(j=0;j<len2;j++){
-			c2=s2[j];
-			if(c1<='z'&&c1>='a')	c1-=32;
-			if(c2<='z'&&c2>='a')	c2-=32;
-			if(c1==c2)	break;
-		}
-		if(j==len2&&!HashTable[c1]){
-			cout<<c1;
-			HashTable[c1]=true;
-		}
+	int n,m;
+	scanf("%d",&n);
+	for(int i=0;i<n;i++){
+		scanf("%d",&s1[i]);
+	}
+	scanf("%d",&m);
+	for(int i=0;i<m;i++){
+		scanf("%d",&s2[i]);
+	}
+	s1[n]=INF;
+	s2[m]=INF;
+	int mid=(n+m-1)/2;
+	int i=0,j=0,count=0;
+	while(count<mid){
+		if(s1[i]<s2[j])	i++;
+		else	j++;
+		count++;
+	}
+	if(s1[i]<s2[j]){
+		printf("%d\n",s1[i]);
+	}
+	else{
+		printf("%d\n",s2[j]);
 	}
 }
