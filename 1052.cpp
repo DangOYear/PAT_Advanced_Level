@@ -3,8 +3,8 @@
 
 using namespace std;
 
-//#define MAX_N 100005
-const int MAX_N=100005
+#define MAX_N 100005
+//const int MAX_N=100005
 struct Node{
 	int next;
 	int data;
@@ -16,7 +16,9 @@ int n,head;
 
 bool cmp(struct Node a,struct Node b){
 	if(a.flag!=b.flag)	return a.flag>b.flag;
-	if(a.data!=b.data)	return a.data<b.data;
+	else	return a.data<b.data;
+	//if(a.data!=b.data)	return a.data<b.data; 
+	//不处理相等的情况会出现段错误 
 }
 
 int main(){
