@@ -1,37 +1,57 @@
 #include<stdio.h>
-#include<algorithm>
+#include<vector>
 
 #define MAX_N 100100
 
 using namespace std;
 
-int sum[MAX_N];
-int n,m,nearm;
+struct Node{
+	int s;
+	int e;
+}node;
+
+vector<Node> v;
+
+int d[MAX_N];
+int n,m;
+int Min=0;
+
+void solve(){
+	int res=Min;
+	int s=1,t=1,sum=0;
+	for(;;){
+		while(t<=n&&sum<m){
+			sum+=d[t++];
+		}
+		if(sum<m)	break;
+		
+		if(sum>=m){
+			if(sum<res){
+				res=sum;
+				v.clear();
+				node.s=s;
+				node.e=t-1;
+				v.push_back(node);
+			}
+			else if(sum==res){
+					node.s=s;
+					node.e=t-1;
+					v.push_back(node);
+			}
+			sum-=d[s++];
+		}
+	}
+}
 
 int main(){
+	
 	scanf("%d%d",&n,&m);
-	sum[0]=0;
-	int num;
 	for(int i=1;i<=n;i++){
-		scanf("%d",&num);
-		sum[i]=sum[i-1]+num;
+		scanf("%d",&d[i]);
+		Min+=d[i];
 	}
-	for(int i=1;i<=n;i++){
-		int *j=upper_bound(sum+1,sum+n+1,sum[i-1]+m);
-		int k=j-sum;
-		if(sum[k-1]-sum[i-1]==m){
-			nearm=m;
-			break;
-		}
-		else if(k<=n&&sum[k]-sum[i-1]<nearm){
-			nearm=sum[k]-sum[i-1];
-		}
-	}
-	for(int i=1;i<=n;i++){
-		int *j=upper_bound(sum+1,sum+n+1,sum[i-1]+nearm);
-		int k=j-sum;
-		if(sum[k-1]-sum[i-1]==nearm){
-			printf("%d-%d\n",i,k-1);
-		}
+	solve();
+	for(int i=0;i<v.size();i++){
+		printf("%d-%d\n",v[i].s,v[i].e);
 	}
 }
