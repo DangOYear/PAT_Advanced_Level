@@ -16,18 +16,20 @@ int n;
 
 
 
-void insert(int i,int root){
+void insert(int i,int &root){
 	if(root==-1){
 		root=i;
+		return ;
 	}
 	else{
-		if(node[i].data<node[root].data)	insert(i,node[root].lchild);
+		if(node[i].data<=node[root].data)	insert(i,node[root].lchild);
 		else	insert(i,node[root].rchild);
 	}
 }
 
-void in(int &root){
-	
+void in(int root){
+	if(root==-1)
+		return;
 	in(node[root].lchild);
 	printf(" %d",node[root].data);
 	in(node[root].rchild);
@@ -35,7 +37,7 @@ void in(int &root){
 
 
 void bfs(int root){
-	printf("bfs\n");
+	//printf("bfs\n");
 	queue<int> q;
 	int max=-1;
 	node[root].level=1;
@@ -43,18 +45,17 @@ void bfs(int root){
 	while(!q.empty()){
 		int p=q.front();
 		q.pop();
+		
+		if(node[p].level>max){
+			max=node[p].level;
+		}
+		
 		if(node[p].lchild!=-1){
 			node[node[p].lchild].level=node[p].level+1;
-			if(node[node[p].lchild].level>max){
-				max=node[node[p].lchild].level;
-			}
 			q.push(node[p].lchild);
 		}
 		if(node[p].rchild!=-1){
 			node[node[p].rchild].level=node[p].level+1;
-			if(node[node[p].rchild].level>max){
-				max=node[node[p].rchild].level;
-			}
 			q.push(node[p].rchild);
 		}
 	}
@@ -80,6 +81,6 @@ int main(){
 		node[i].lchild=node[i].rchild=-1;
 		insert(i,root);
 	}
-	in(root);
+	//in(root);
 	bfs(root);
 }
