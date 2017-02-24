@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<algorithm>
+#include<queue>
 
 using namespace std;
 
@@ -10,7 +11,7 @@ typedef struct Node{
 }AVLnode,*AVLtree;
 
 AVLtree root;
-
+int n;
 AVLnode *newNode(int weight){
 	AVLnode *node=new AVLnode;
 	node->weight=weight;
@@ -84,13 +85,46 @@ void insert(AVLtree &root,int weight){
 	}
 }
 
+bool bfs(AVLnode *root){
+	int count=0;
+	queue<AVLnode*> q;
+	q.push(root);
+	bool flag=true;
+	while(count<n){
+		AVLnode* p=q.front();
+		q.pop();
+		if(p!=NULL){
+			printf("%d",p->weight);
+			count++;
+			if(count!=n){
+				printf(" ");
+			}
+			else{
+				printf("\n");
+			}
+			q.push(p->lchild);
+			q.push(p->rchild);
+		}
+		else{
+			if(count<n){
+				flag=false;
+			}
+		}
+	}
+	return flag;
+}
 
 int main(){
-	int n,weight;
+	int weight;
 	scanf("%d",&n);
 	for(int i=0;i<n;i++){
 		scanf("%d",&weight);
 		insert(root,weight);
 	}
-	printf("%d",root->weight);
+	//printf("%d",root->weight);
+	bool flag=bfs(root);
+	if(flag)
+		printf("YES");
+	else
+		printf("NO");
 }
