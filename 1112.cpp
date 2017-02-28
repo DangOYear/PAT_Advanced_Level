@@ -1,32 +1,46 @@
 #include<stdio.h>
-#include<map>
-#include<vector>
 #include<string.h>
-#include<algorithm>
 
-using namespace std;
 
-#define MAX_N 110
+#define MAX_N 1100
 
-int Map[256];
-char s[MAX_N];
-vector<char> v;
+int k;
+char str[MAX_N];
+
+bool map[256];
+bool visited[256];
 
 int main(){
-	int k;
 	scanf("%d",&k);
-	scanf("%s",s);
-	//puts(s);
-	for(int i=0;i<strlen(s);i++){
-		
-	}
-	for(int i=0;i<256;i++){
-		if(Map[i]!=0&&Map[i]%k==0){
-			v.push_back(char(i));
+	scanf("%s",str);
+	int count=1;
+	int len=strlen(str);
+	//if(len==1)	map[str[0]]=true;
+	//if(len>1&&str[1]!=str[0])	map[str[0]]=true;
+	
+	for(int i=1;i<=len;i++){
+		if(str[i]==str[i-1]){
+			count++;
+		}
+		if(str[i]!=str[i-1]){
+			if(count%k!=0){
+				map[str[i-1]]=true;
+			}
+			count=1;
 		}
 	}
-	for(int i=0;i<v.size();i++){
-		printf("%c ",v[i]);
+	for(int i=0;i<len;i++){
+		if(map[str[i]]==false&&!visited[str[i]]){
+			visited[str[i]]=true;
+			printf("%c",str[i]);
+			i=i+k-1;
+		}
+	}
+	printf("\n");
+	for(int i=0;i<len;i++){
+		printf("%c",str[i]);
+		if(map[str[i]]==false){
+			i=i+k-1;
+		}
 	}
 }
-
